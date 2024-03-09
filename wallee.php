@@ -3,11 +3,9 @@
 namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
-use App\Models\ReservationTransaction;
 use App\Controllers\Repositories\PaymentMethodRepository;
 use App\Controllers\Repositories\CustomerWalleeTokensRepository;
 use App\Controllers\Repositories\PaymentTransactionsRepository;
-use App\Libraries\ServerSideDataTable;
 
 class WallePaymentGatewayController extends BaseController
 {
@@ -17,8 +15,6 @@ class WallePaymentGatewayController extends BaseController
     private $DB;
     private $PaymentMethodRepository;
     private $CustomerWalleeTokensRepository;
-    private $User_GroupID;
-    private $ReservationTransaction;
     public $PaymentTransactionsRepository;
     public $request;
     public $session;
@@ -28,15 +24,11 @@ class WallePaymentGatewayController extends BaseController
         $this->DB = \Config\Database::connect();
         $this->request = \Config\Services::request();
         $this->session = \Config\Services::session();
-        $this->ReservationTransaction = new ReservationTransaction();
         $this->User_PropertyID = session()->get('H_PROPERTY_ID');
         $this->PaymentMethodRepository = new PaymentMethodRepository();
         $this->CustomerWalleeTokensRepository = new CustomerWalleeTokensRepository();
         $this->PaymentTransactionsRepository = new PaymentTransactionsRepository();
-        $this->addPropertyIDCol = ['H_PROPERTY_ID' => $this->User_PropertyID];
-        $this->User_GroupID = session()->get('H_GROUP_ID');
 
-        helper('common');
     }
 
     /**
